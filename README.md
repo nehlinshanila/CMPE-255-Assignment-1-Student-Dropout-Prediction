@@ -5,7 +5,7 @@
 This project demonstrates an **end-to-end data science workflow assisted by ChatGPT**. The goal is to predict a university student's academic outcome as **Dropout**, **Enrolled**, or **Graduate** using demographic, socioeconomic, enrollment, and academic-performance features.
 
 > **Project links**  
-> 📝 Medium article: **[ADD YOUR MEDIUM ARTICLE URL HERE]**  
+> 📝 Medium article: **[https://medium.com/@nehlinshanila/predicting-student-dropout-and-academic-success-with-machine-learning-7ccba3fa8e94?postPublishedType=initial]**  
 > 🎥 YouTube walkthrough: **[ADD YOUR YOUTUBE VIDEO URL HERE]**
 
 ---
@@ -158,7 +158,7 @@ The YouTube video should highlight the complete end-to-end journey: dataset sele
 
 A reader-friendly version of the analysis is published on Medium.
 
-**Medium:** [ADD YOUR MEDIUM ARTICLE URL HERE]
+**Medium:** [https://medium.com/@nehlinshanila/predicting-student-dropout-and-academic-success-with-machine-learning-7ccba3fa8e94?postPublishedType=initial]
 
 ---
 
