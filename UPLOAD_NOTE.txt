@@ -1,6 +1,0 @@
-BEFORE SUBMITTING:
-1. Your completed Colab notebook is already included in the repository root.
-2. Publish your Medium article and replace the Medium placeholder in README.md with its URL.
-3. Upload your YouTube walkthrough and replace the YouTube placeholder in README.md with its URL.
-4. Make the GitHub repository PUBLIC.
-5. Check that every image displays correctly on the GitHub README.
