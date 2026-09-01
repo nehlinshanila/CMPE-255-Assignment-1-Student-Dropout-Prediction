@@ -1,173 +1,180 @@
-# 🎓 Predicting Student Dropout and Academic Success with Machine Learning
+# CMPE 255 — Assignment 1
 
-## CMPE 255 — Assignment 1
+## Predicting Student Dropout and Academic Success with Machine Learning
 
-This project demonstrates an **end-to-end data science workflow assisted by ChatGPT**. The goal is to predict a university student's academic outcome as **Dropout**, **Enrolled**, or **Graduate** using demographic, socioeconomic, enrollment, and academic-performance features.
+This repository contains my end-to-end data science project for **CMPE 255 Assignment 1**.  
+The project uses the popular Kaggle dataset **Predict Students' Dropout and Academic Success** and follows the **CRISP-DM** methodology from business understanding through model evaluation and deployment recommendations.
 
-> **Project links**  
-> 📝 Medium article: **[https://medium.com/@nehlinshanila/predicting-student-dropout-and-academic-success-with-machine-learning-7ccba3fa8e94?postPublishedType=initial]**  
-> 🎥 YouTube walkthrough: **[ADD YOUR YOUTUBE VIDEO URL HERE]**
-
----
-
-## 📌 Project Overview
-
-The dataset contains **4,424 student records**, **36 predictor features**, and one three-class target. The workflow covers data inspection, exploratory data analysis, preprocessing, correlation analysis, model training, model evaluation, feature importance, neural-network training, and final model comparison.
-
-### Target distribution
-
-- Graduate: **2,209**
-- Dropout: **1,421**
-- Enrolled: **794**
-
-![Target distribution](images/target_distribution.png)
+**Dataset:** https://www.kaggle.com/datasets/satyajeetbedi/students-dropout-and-academic-success
 
 ---
 
-## 🔬 End-to-End Workflow
+## Project Goal
 
-1. Loaded and inspected the student dataset.
-2. Examined target distribution and student characteristics.
-3. Encoded the target for correlation analysis.
-4. Performed an 80/20 stratified train-test split.
-5. Standardized features where appropriate using `StandardScaler`.
-6. Trained Logistic Regression, Random Forest, XGBoost, and a feed-forward Neural Network.
-7. Evaluated models using **Accuracy**, **Macro F1**, classification reports, and confusion matrices.
-8. Examined Random Forest feature importance.
-9. Compared all four models and interpreted the results.
+The goal is to predict a student's academic outcome as one of three classes:
+
+- **Dropout**
+- **Enrolled**
+- **Graduate**
+
+The project also studies which factors are associated with student success and discusses how a model like this could be used responsibly as an early-warning support system.
 
 ---
 
-## 📊 Correlation Analysis
+## CRISP-DM Workflow
 
-Academic progress variables showed the strongest positive relationship with academic outcome. In particular, approved curricular units and semester grades were strongly associated with higher outcomes. Age at enrollment, debtor status, gender, and application mode showed negative correlations with the encoded outcome. These are associations and should not be interpreted as causal effects.
+### 1. Business Understanding
+Defined the student-retention problem, stakeholders, prediction objective, success metrics, and responsible-use considerations.
 
-![Correlation heatmap](images/correlation_heatmap.png)
+### 2. Data Understanding
+Performed:
+- dataset inspection and profiling
+- missing-value and duplicate checks
+- data-quality validation
+- descriptive statistics
+- class-imbalance analysis
+- exploratory data analysis
+- outlier review
+- correlation analysis
 
----
+### 3. Data Preparation
+Performed:
+- cleaning hidden BOM/tab characters from column names
+- separation of nominal, binary, ordinal, and true numerical variables
+- leakage-safe stratified 80/20 train-test split
+- one-hot encoding for nominal features
+- scaling for scale-sensitive models
+- model-specific preprocessing pipelines
 
-## 🤖 Models and Results
+### 4. Feature Selection
+Compared:
+- Mutual Information
+- correlation among true numerical features
+- tree-based feature importance
 
-| Model | Accuracy | Macro F1 |
+Semester academic-performance variables were the strongest predictors, especially approved curricular units and semester grades.
+
+### 5. Modeling
+Models evaluated:
+- DummyClassifier baseline
+- Logistic Regression
+- Random Forest
+- XGBoost
+- Neural Network (MLP)
+
+### 6. Evaluation
+Primary metric: **Macro F1**, because the target classes are imbalanced.
+
+| Model | Test Accuracy | Test Macro F1 |
 |---|---:|---:|
-| **XGBoost** | 0.7706 | **0.7052** |
-| **Random Forest** | **0.7740** | 0.7001 |
-| Neural Network | 0.7559 | 0.6838 |
-| Logistic Regression | 0.7684 | 0.6826 |
+| DummyClassifier | 0.4994 | 0.2221 |
+| Logistic Regression | 0.7706 | 0.6969 |
+| Random Forest | **0.7729** | 0.6757 |
+| XGBoost | 0.7650 | **0.7013** |
+| Neural Network | 0.7446 | 0.6727 |
 
-### Logistic Regression
+The **Enrolled** class was consistently the hardest to predict.
 
-Logistic Regression achieved **76.84% accuracy** and a **0.6826 Macro F1** score. It performed strongly for Graduate students but had more difficulty identifying the smaller Enrolled class.
+### 7. Cross-Validation and Tuning
+Stratified 5-fold cross-validation confirmed that XGBoost and Logistic Regression were the strongest and most stable candidates.
 
-![Logistic Regression confusion matrix](images/logistic_regression_confusion_matrix.png)
+Approximate mean CV Macro F1:
+- XGBoost: **~0.716**
+- Logistic Regression: **~0.701**
+- Random Forest: **~0.673**
 
-### Random Forest
-
-Random Forest achieved the **highest accuracy: 77.40%**, with a **0.7001 Macro F1** score.
-
-![Random Forest confusion matrix](images/random_forest_confusion_matrix.png)
-
-Its feature-importance analysis showed that academic progress variables were among the strongest predictors, especially second-semester approved units and grades.
-
-![Random Forest feature importance](images/random_forest_feature_importance.png)
-
-### XGBoost
-
-XGBoost achieved **77.06% accuracy** and the **best Macro F1 score: 0.7052**. Because Macro F1 gives equal importance to each target class, XGBoost provided the best balanced performance among the tested models.
-
-![XGBoost confusion matrix](images/xgboost_confusion_matrix.png)
-
-### Neural Network
-
-The neural network used Dense layers with **128, 64, and 32 units**, ReLU activations, dropout regularization, and a three-class softmax output. It was trained with Adam, sparse categorical cross-entropy, and early stopping.
-
-It achieved **75.59% accuracy** and a **0.6838 Macro F1** score. The training and validation curves suggest some overfitting: training performance continued improving while validation loss did not show the same improvement.
-
-![Neural network accuracy](images/neural_network_accuracy.png)
-
-![Neural network loss](images/neural_network_loss.png)
+Light XGBoost tuning improved CV performance only slightly but did not improve the untouched test-set Macro F1, so the original XGBoost configuration remained the preferred candidate.
 
 ---
 
-## 🏆 Final Model Comparison
+## Key Findings
 
-![Model comparison](images/model_comparison.png)
-
-The models produced similar overall accuracy, but Macro F1 exposed differences in their ability to handle all three classes. **Random Forest had the highest accuracy**, while **XGBoost had the highest Macro F1 score**. Since the Enrolled class is smaller and more difficult to predict, I selected **XGBoost as the best balanced model** for this experiment.
-
----
-
-## 💡 Key Findings
-
-- First- and second-semester academic performance was highly informative for predicting outcomes.
-- Second-semester approved curricular units were the most important Random Forest feature.
-- Financial indicators such as tuition-fee status also contributed useful information.
-- The **Enrolled** class was consistently the hardest class for the models to identify.
-- A neural network did not automatically outperform traditional machine-learning models on this structured tabular dataset.
-- Accuracy alone can hide class-level weaknesses, so Macro F1 and confusion matrices were important parts of the evaluation.
+- Academic progress after enrollment was the strongest predictor of final outcome.
+- First- and second-semester approved units and grades clearly separated graduates from dropouts.
+- Students whose tuition fees were not up to date had a much higher dropout proportion in this dataset.
+- Scholarship holders showed a substantially higher graduation proportion.
+- Admission grades were useful but much less discriminative than semester performance.
+- The Enrolled class was the most difficult because it is smaller and overlaps behaviorally with both Dropout and Graduate students.
+- High predictive power from second-semester features creates a timing limitation: these features cannot be used for a true enrollment-time early-warning system.
 
 ---
 
-## 🧰 Technologies Used
+## Responsible Data Science Considerations
 
-| Technology | Purpose |
-|---|---|
-| Python | Data science and machine learning |
-| Google Colab | Notebook development environment |
-| pandas / NumPy | Data manipulation |
-| Matplotlib / Seaborn | Visualization |
-| scikit-learn | Preprocessing, models, and evaluation |
-| XGBoost | Gradient-boosted classification |
-| TensorFlow / Keras | Neural network |
-| ChatGPT | Coding and data-science assistance |
-| GitHub | Project documentation and artifact hosting |
+This model should be used only as a **decision-support tool** for supportive interventions such as advising, tutoring, mentoring, and financial-aid outreach.
+
+Important limitations include:
+- class imbalance
+- temporal leakage risk if late-semester variables are presented as enrollment-time predictors
+- fairness concerns involving demographic and socioeconomic variables
+- limited generalizability beyond the institution represented in the dataset
+- need for privacy controls, monitoring, drift detection, and periodic retraining
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```text
-Assignment-1-Student-Success-ML/
+CMPE255_Assignment1/
 ├── README.md
-├── data.csv
-├── Student_Dropout_Prediction_CMPE255.ipynb
+├── Student_Dropout.ipynb
 ├── images/
-│   ├── target_distribution.png
-│   ├── correlation_heatmap.png
-│   ├── logistic_regression_confusion_matrix.png
-│   ├── random_forest_confusion_matrix.png
-│   ├── random_forest_feature_importance.png
-│   ├── xgboost_confusion_matrix.png
-│   ├── neural_network_accuracy.png
-│   ├── neural_network_loss.png
-│   └── model_comparison.png
-└── report/
-    └── Medium_Article_Student_Academic_Success.docx
+│   ├── 01_target_distribution.png
+│   ├── 02_age_by_outcome.png
+│   ├── 03_tuition_status_outcomes.png
+│   ├── 04_first_semester_grade.png
+│   ├── 05_second_semester_grade.png
+│   ├── 06_approved_units.png
+│   ├── 07_model_comparison.png
+│   ├── 08_cross_validation_macro_f1.png
+│   └── 09_tuned_xgboost_confusion_matrix.png
+└── data.csv
+
 ```
 
+---
+
+## How to Run
+
+The notebook was designed for **Google Colab**.
+
+1. Open `Student_Dropout_Prediction_CRISPDM.ipynb` in Google Colab.
+2. Run the cells in order.
+3. If prompted, upload `data.csv`.
+4. Install XGBoost if the environment does not already provide it.
+5. Review the EDA, model evaluation, cross-validation, and tuning outputs.
 
 ---
 
-## 🎥 Video Walkthrough
+## Assignment Deliverables
 
-The YouTube video should highlight the complete end-to-end journey: dataset selection, EDA, preprocessing, model building, evaluation, comparison, and a short explanation of what the outputs mean.
+### Part 1
+- [x] Kaggle dataset selected
+- [x] End-to-end data science analysis with ChatGPT assistance
+- [x] Deep-learning model included
+- [x] Colab notebook
+- [x] GitHub README and project artifacts
+- [x] ChatGPT transcript PDF 
+- [x] Medium article published 
+- [x] YouTube walkthrough published 
 
-**YouTube:** [ADD YOUR YOUTUBE VIDEO URL HERE]
+**ChatGPT Link:** [Walkthrough](https://chatgpt.com/share/6a960a80-1624-83ea-bdf7-ae17bf966e80)
 
-## 📝 Medium Article
+**Medium Article:** [Can Machine Learning Help Identify Students at Risk?
+](https://medium.com/@nehlinshanila/can-machine-learning-help-identify-students-at-risk-a97b8303c197?postPublishedType=initial)  
 
-A reader-friendly version of the analysis is published on Medium.
-
-**Medium:** [https://medium.com/@nehlinshanila/predicting-student-dropout-and-academic-success-with-machine-learning-7ccba3fa8e94?postPublishedType=initial]
+**YouTube Walkthrough:** ADD_YOUTUBE_LINK_HERE
 
 ---
 
-## 🔮 Future Improvements
+## Final Model Recommendation
 
-Future work could explore hyperparameter tuning, additional class-balancing techniques, feature engineering, and cross-validation. Improving prediction of the Enrolled class would be a particularly useful next step.
+The original **XGBoost** model is the strongest current candidate because it achieved the best balanced multiclass performance (Macro F1) and handled the difficult Enrolled class better than the other initial models.
+
+Logistic Regression remains an important alternative because its performance was very close while being simpler and easier to interpret.
 
 ---
 
-## Acknowledgment
+## Tools and Technologies
 
-This project was completed as part of **CMPE 255 Assignment 1** using ChatGPT as a coding and data-science assistant throughout the end-to-end workflow.
+Python, Pandas, NumPy, Matplotlib, Seaborn, scikit-learn, XGBoost, Google Colab, ChatGPT, GitHub, Kaggle, Medium.
