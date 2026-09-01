@@ -1,0 +1,3 @@
+# Prompt Used
+
+> Build an end-to-end clustering data science project using a popular Kaggle dataset and the CRISP-DM framework. Use the Mall Customers Segmentation dataset. Download and execute the real dataset, perform EDA and data-quality checks, standardize appropriate features, compare K-Means, Agglomerative Clustering, and DBSCAN, select the final model using silhouette score plus business interpretability, create meaningful customer segment names and marketing recommendations, and build a polished data science admin dashboard. Keep the GitHub repository minimal: only one executed `.ipynb`, `README.md`, `prompt_used.md`, and an `images/` folder. Do not add unnecessary source files or data files. Clearly distinguish model-derived segments from ground-truth labels.
