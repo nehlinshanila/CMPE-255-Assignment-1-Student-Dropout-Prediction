@@ -163,7 +163,7 @@ The notebook was designed for **Google Colab**.
 **Medium Article:** [Can Machine Learning Help Identify Students at Risk?
 ](https://medium.com/@nehlinshanila/can-machine-learning-help-identify-students-at-risk-a97b8303c197?postPublishedType=initial)  
 
-**YouTube Walkthrough:** ADD_YOUTUBE_LINK_HERE
+**YouTube Walkthrough:** https://youtu.be/xp5Ji54wrLg
 
 ---
 
